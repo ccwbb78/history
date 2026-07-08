@@ -6,11 +6,20 @@ import Checking from "@/pages/Checking";
 import Man from "@/pages/Man";
 import End from "@/pages/End";
 import ProtectedRoute from "@/components/ProtectedRoute";
+import ClickSpark from "@/components/ClickSpark";
 
 export default function App() {
   return (
-    <Router>
-      <Routes>
+    <ClickSpark
+      sparkColor="#fff"
+      sparkSize={10}
+      sparkRadius={15}
+      sparkCount={8}
+      duration={400}
+      className="min-h-screen"
+    >
+      <Router>
+        <Routes>
         <Route path="/" element={<Home />} />
         <Route
           path="/teachers"
@@ -33,5 +42,6 @@ export default function App() {
         <Route path="/end" element={<End />} />
       </Routes>
     </Router>
+    </ClickSpark>
   );
 }

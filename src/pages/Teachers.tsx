@@ -3,7 +3,6 @@ import { ArrowLeft, ChevronLeft, ChevronRight } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import Lanyard from "@/components/Lanyard";
 import LightRays from "@/components/LightRays";
-import ClickSpark from "@/components/ClickSpark";
 
 const teachers = [
   { id: 1, name: "占老师", subject: "数学老师", front: "/teachers/teacher-1.png" },
@@ -54,15 +53,7 @@ export default function Teachers() {
   const teacher = teachers[currentIndex];
 
   return (
-    <ClickSpark
-      sparkColor="#fff"
-      sparkSize={10}
-      sparkRadius={15}
-      sparkCount={8}
-      duration={400}
-      className="min-h-screen"
-    >
-      <div className="relative flex min-h-screen flex-col overflow-hidden bg-black">
+    <div className="relative flex min-h-screen flex-col overflow-hidden bg-black">
       {/* Header */}
       <div className="relative z-10 mx-auto w-full max-w-7xl px-4 pt-4 md:px-6 md:pt-8">
         <div className="mb-2 flex items-center justify-between md:mb-4">
@@ -168,6 +159,5 @@ export default function Teachers() {
         />
       </div>
     </div>
-  </ClickSpark>
   );
 }

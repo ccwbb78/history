@@ -145,13 +145,10 @@ const ClickSpark = ({
       <canvas
         ref={canvasRef}
         style={{
-          width: '100%',
-          height: '100%',
           display: 'block',
           userSelect: 'none',
           position: 'absolute',
-          top: 0,
-          left: 0,
+          inset: 0,
           pointerEvents: 'none',
           zIndex: 50
         }}
