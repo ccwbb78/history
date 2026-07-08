@@ -16,15 +16,10 @@ const teachers = [
 export default function Teachers() {
   const navigate = useNavigate();
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [isMobile, setIsMobile] = useState(false);
   const touchStartX = useRef(0);
 
-  useEffect(() => {
-    const check = () => setIsMobile(window.innerWidth < 768);
-    check();
-    window.addEventListener("resize", check);
-    return () => window.removeEventListener("resize", check);
-  }, []);
+  // Lanyard 内部自带 isMobile 检测，这里只用于布局微调
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
 
   const goTo = (index: number) =>
     setCurrentIndex(Math.max(0, Math.min(teachers.length - 1, index)));

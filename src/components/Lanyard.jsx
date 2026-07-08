@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { Suspense, useEffect, useMemo, useRef, useState } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { useGLTF, useTexture } from '@react-three/drei';
 import { BallCollider, CuboidCollider, Physics, RigidBody, useRopeJoint, useSphericalJoint } from '@react-three/rapier';
@@ -17,6 +17,15 @@ const BLANK_PIXEL =
 
 const FRONT_UV_RECT = { x: 0, y: 0, w: 0.5, h: 0.755 };
 const BACK_UV_RECT = { x: 0.5, y: 0, w: 0.5, h: 0.757 };
+
+function LoadingFallback() {
+  return (
+    <div className="lanyard-loading">
+      <div className="lanyard-spinner" />
+      <p className="lanyard-loading-text">加载中...</p>
+    </div>
+  );
+}
 
 export default function Lanyard({
   position = [0, 0, 30],
@@ -39,25 +48,30 @@ export default function Lanyard({
 
   return (
     <div className="lanyard-wrapper">
-      <Canvas
-        camera={{ position: position, fov: fov }}
-        dpr={[1, isMobile ? 1.5 : 2]}
-        gl={{ alpha: transparent }}
-        onCreated={({ gl }) => gl.setClearColor(new THREE.Color(0x000000), transparent ? 0 : 1)}
-      >
-        <ambientLight intensity={Math.PI} />
-        <directionalLight position={[5, 5, 5]} intensity={1.5} />
-        <Physics gravity={gravity} timeStep={isMobile ? 1 / 30 : 1 / 60}>
-          <Band
-            isMobile={isMobile}
-            frontImage={frontImage}
-            backImage={backImage}
-            imageFit={imageFit}
-            lanyardImage={lanyardImage}
-            lanyardWidth={lanyardWidth}
-          />
-        </Physics>
-      </Canvas>
+      <Suspense fallback={<LoadingFallback />}>
+        <Canvas
+          camera={{ position: position, fov: fov }}
+          dpr={[0.5, isMobile ? 1 : 1.5]}
+          gl={{ alpha: transparent, powerPreference: 'high-performance', antialias: !isMobile }}
+          onCreated={({ gl }) => {
+            gl.setClearColor(new THREE.Color(0x000000), transparent ? 0 : 1);
+          }}
+          performance={{ min: 0.3, max: isMobile ? 0.6 : 1 }}
+        >
+          <ambientLight intensity={Math.PI} />
+          <directionalLight position={[5, 5, 5]} intensity={1.5} />
+          <Physics gravity={gravity} timeStep={isMobile ? 1 / 45 : 1 / 60}>
+            <Band
+              isMobile={isMobile}
+              frontImage={frontImage}
+              backImage={backImage}
+              imageFit={imageFit}
+              lanyardImage={lanyardImage}
+              lanyardWidth={lanyardWidth}
+            />
+          </Physics>
+        </Canvas>
+      </Suspense>
     </div>
   );
 }
@@ -144,13 +158,13 @@ function Band({
       new MeshLineMaterial({
         color: 'white',
         depthTest: false,
-        resolution: new THREE.Vector2(isMobile ? 1000 : 1000, isMobile ? 2000 : 1000),
-        useMap: true,
-        map: texture,
+        resolution: new THREE.Vector2(isMobile ? 500 : 1000, isMobile ? 1000 : 1000),
+        useMap: false,
+        map: null,
         repeat: new THREE.Vector2(-4, 1),
-        lineWidth: lanyardWidth,
+        lineWidth: lanyardWidth * (isMobile ? 0.8 : 1),
       }),
-    [texture, lanyardWidth, isMobile]
+    [lanyardWidth, isMobile]
   );
 
   useRopeJoint(fixed, j1, [[0, 0, 0], [0, 0, 0], 1]);
@@ -189,7 +203,7 @@ function Band({
       curve.points[1].copy(j2.current.lerped);
       curve.points[2].copy(j1.current.lerped);
       curve.points[3].copy(fixed.current.translation());
-      band.current.geometry.setPoints(curve.getPoints(isMobile ? 16 : 32));
+      band.current.geometry.setPoints(curve.getPoints(isMobile ? 12 : 24));
       ang.copy(card.current.angvel());
       rot.copy(card.current.rotation());
       card.current.setAngvel({ x: ang.x, y: ang.y - rot.y * 0.25, z: ang.z });
@@ -226,12 +240,10 @@ function Band({
             )}
           >
             <mesh geometry={nodes.card.geometry}>
-              <meshPhysicalMaterial
+              <meshStandardMaterial
                 map={cardMap}
                 map-anisotropy={16}
-                clearcoat={isMobile ? 0 : 1}
-                clearcoatRoughness={0.15}
-                roughness={0.9}
+                roughness={0.3}
                 metalness={0.8}
               />
             </mesh>
