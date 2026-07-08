@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { Home } from 'lucide-react';
 import TiltedCard from '@/components/TiltedCard';
-import gradPhoto from '/0/1.jpg';
+import gradPhoto from '/0/1.webp';
 
 export default function End() {
   const navigate = useNavigate();

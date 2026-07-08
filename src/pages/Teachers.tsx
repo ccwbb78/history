@@ -5,12 +5,12 @@ import Lanyard from "@/components/Lanyard";
 import LightRays from "@/components/LightRays";
 
 const teachers = [
-  { id: 1, name: "占老师", subject: "数学老师", front: "/teachers/teacher-1.png" },
-  { id: 2, name: "张老师", subject: "语文老师", front: "/teachers/teacher-2.png" },
-  { id: 3, name: "李老师", subject: "英语老师", front: "/teachers/teacher-3.png" },
-  { id: 4, name: "张r", subject: "物理老师", front: "/teachers/teacher-4.png" },
-  { id: 5, name: "舒老师", subject: "化学老师", front: "/teachers/teacher-5.png" },
-  { id: 6, name: "吴老师", subject: "生物老师", front: "/teachers/teacher-6.png" },
+  { id: 1, name: "占老师", subject: "数学老师", front: "/teachers/teacher-1.webp" },
+  { id: 2, name: "张老师", subject: "语文老师", front: "/teachers/teacher-2.webp" },
+  { id: 3, name: "李老师", subject: "英语老师", front: "/teachers/teacher-3.webp" },
+  { id: 4, name: "张r", subject: "物理老师", front: "/teachers/teacher-4.webp" },
+  { id: 5, name: "舒老师", subject: "化学老师", front: "/teachers/teacher-5.webp" },
+  { id: 6, name: "吴老师", subject: "生物老师", front: "/teachers/teacher-6.webp" },
 ];
 
 export default function Teachers() {

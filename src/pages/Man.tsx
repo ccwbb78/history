@@ -4,7 +4,7 @@ import DomeGallery from '@/components/DomeGallery';
 import { getRegisteredName, canAccessMan } from '@/lib/auth';
 
 function loadImages(): { src: string; alt: string }[] {
-  const modules = import.meta.glob('/0/*.jpg', { eager: true, import: 'default' }) as Record<string, string>;
+  const modules = import.meta.glob('/0/*.webp', { eager: true, import: 'default' }) as Record<string, string>;
   return Object.entries(modules).map(([path, src]) => {
     const name = path.split('/').pop() || 'photo';
     return { src, alt: name };

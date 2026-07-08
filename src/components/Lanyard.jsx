@@ -10,7 +10,7 @@ import './Lanyard.css';
 const { MeshLineGeometry, MeshLineMaterial } = MeshLineModule;
 
 const cardGLB = '/lanyard/card.glb';
-const lanyard = '/lanyard/lanyard.png';
+const lanyard = '/lanyard/lanyard.webp';
 
 const BLANK_PIXEL =
   'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==';
