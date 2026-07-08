@@ -1,8 +1,18 @@
-import { useEffect, useRef, useState } from "react";
+import { lazy, Suspense, useEffect, useRef, useState } from "react";
 import { ArrowLeft, ChevronLeft, ChevronRight } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
-import Lanyard from "@/components/Lanyard";
 import LightRays from "@/components/LightRays";
+
+const Lanyard = lazy(() => import("@/components/Lanyard"));
+
+function LanyardFallback() {
+  return (
+    <div className="flex h-full w-full flex-col items-center justify-center gap-3 text-white/40">
+      <div className="h-8 w-8 animate-spin rounded-full border-2 border-white/10 border-t-white/40" />
+      <p className="text-xs">加载中...</p>
+    </div>
+  );
+}
 
 const teachers = [
   { id: 1, name: "占老师", subject: "数学老师", front: "/teachers/teacher-1.webp" },
@@ -73,6 +83,7 @@ export default function Teachers() {
           onTouchStart={handleTouchStart}
           onTouchEnd={handleTouchEnd}
         >
+          <Suspense fallback={<LanyardFallback />}>
           <Lanyard
             frontImage={teacher.front}
             position={isMobile ? [0, 0, 11] : [0, 0, 18]}
@@ -81,6 +92,7 @@ export default function Teachers() {
             lanyardWidth={isMobile ? 0.5 : 1.2}
             transparent={false}
           />
+          </Suspense>
         </div>
 
         {/* Prev button */}
